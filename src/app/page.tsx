@@ -1,8 +1,10 @@
 "use client";
-import WordleSection from "@/components/sections/WordleSection";
-import LetterBoxedSection from "@/components/sections/LetterBoxedSection";
 import { useState, useEffect } from "react";
+import WordleSection from "@/components/sections/WordleSection";
+import ConnectionsSection from "@/components/sections/ConnectionsSection";
+import LetterBoxedSection from "@/components/sections/LetterBoxedSection";
 import SpellingBeeSection from "@/components/sections/SpellingBeeSection";
+
 export default function Home() {
   const [wordleData, setWordleData] = useState([]);
   const [connectionsData, setConnectionsData] = useState([]);
@@ -44,6 +46,7 @@ export default function Home() {
     
     <div className="">
         <WordleSection wordleData={wordleData} />
+        <ConnectionsSection connectionsData={connectionsData} />
         <LetterBoxedSection letterBoxedData={letterBoxedData} />
         <SpellingBeeSection spellingBeeData={spellingBeeData} />
     </div>
