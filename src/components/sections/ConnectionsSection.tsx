@@ -32,6 +32,7 @@ export default function ConnectionsSection({ connectionsData }: { connectionsDat
   if (!connectionsData) {
     return (
       <div className="w-full min-h-screen bg-[#b4a8fe] flex flex-col items-center justify-center">
+        <Card className="w-full max-w-md sm:max-w-lg md:max-w-2xl mx-2 sm:mx-4 md:mx-auto bg-white/80 border-2 border-black rounded-xl shadow-lg p-4 md:p-8">
           <CardHeader>
             <CardTitle>Connections</CardTitle>
           </CardHeader>
