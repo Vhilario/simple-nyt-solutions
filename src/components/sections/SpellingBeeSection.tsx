@@ -54,7 +54,7 @@ export default function SpellingBeeSection({
         }`}
       >
         <div className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg px-6 py-3 shadow-lg">
-          <p className="text-gray-700 font-medium text-lg">Click anywhere to reveal</p>
+          <p className="text-gray-700 font-medium text-lg">Click to reveal</p>
         </div>
       </div>
       <div className="py-10">
