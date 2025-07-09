@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useState } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 
 type StrandsData = {
   id: number;
@@ -22,6 +22,111 @@ type StrandsData = {
 
 export default function StrandsSection({ strandsData }: { strandsData: StrandsData }) {
   const [revealed, setRevealed] = useState(false);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const cellRef = useRef<HTMLDivElement>(null);
+  const [cellSize, setCellSize] = useState({ width: 40, height: 40 });
+
+  // Measure cell size after mount
+  useEffect(() => {
+    if (cellRef.current) {
+      const rect = cellRef.current.getBoundingClientRect();
+      setCellSize({ width: rect.width, height: rect.height });
+    }
+  }, [strandsData.startingBoard]);
+
+  // Set canvas size to match grid
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || !strandsData.startingBoard?.length || !strandsData.startingBoard[0]?.length) return;
+    const boardWidth = strandsData.startingBoard[0].length * cellSize.width;
+    const boardHeight = strandsData.startingBoard.length * cellSize.height;
+    canvas.width = boardWidth;
+    canvas.height = boardHeight;
+    canvas.style.width = `${boardWidth}px`;
+    canvas.style.height = `${boardHeight}px`;
+  }, [strandsData.startingBoard, cellSize]);
+
+  const drawSolutionPaths = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || !revealed || !strandsData?.themeCoords || !strandsData?.spangramCoords) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    // Draw theme word paths
+    Object.entries(strandsData.themeCoords).forEach(([, coords]) => {
+      if (coords.length === 0) return;
+      ctx.beginPath();
+      // SWAP x and y for correct orientation
+      const startX = coords[0][1] * cellSize.width + cellSize.width / 2;
+      const startY = coords[0][0] * cellSize.height + cellSize.height / 2;
+      ctx.moveTo(startX, startY);
+      coords.slice(1).forEach(([x, y]) => {
+        const canvasX = y * cellSize.width + cellSize.width / 2;
+        const canvasY = x * cellSize.height + cellSize.height / 2;
+        ctx.lineTo(canvasX, canvasY);
+      });
+      ctx.strokeStyle = '#aedfee';
+      ctx.lineWidth = 4;
+      ctx.stroke();
+    });
+    // Draw spangram path
+    if (strandsData.spangramCoords.length > 0) {
+      ctx.beginPath();
+      const startX = strandsData.spangramCoords[0][1] * cellSize.width + cellSize.width / 2;
+      const startY = strandsData.spangramCoords[0][0] * cellSize.height + cellSize.height / 2;
+      ctx.moveTo(startX, startY);
+      strandsData.spangramCoords.slice(1).forEach(([x, y]) => {
+        const canvasX = y * cellSize.width + cellSize.width / 2;
+        const canvasY = x * cellSize.height + cellSize.height / 2;
+        ctx.lineTo(canvasX, canvasY);
+      });
+      ctx.strokeStyle = '#ffd700';
+      ctx.lineWidth = 4;
+      ctx.stroke();
+    }
+  }, [revealed, strandsData.themeCoords, strandsData.spangramCoords, cellSize]);
+
+  const drawLetterCircles = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || !revealed) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Draw circles for theme words
+    Object.entries(strandsData.themeCoords).forEach(([, coords]) => {
+      coords.forEach(([x, y]) => {
+        const centerX = y * cellSize.width + cellSize.width / 2;
+        const centerY = x * cellSize.height + cellSize.height / 2;
+        const radius = Math.min(cellSize.width, cellSize.height) * 0.35;
+
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = '#aedfee';
+        ctx.fill();
+      });
+    });
+
+    // Draw circles for spangram
+    if (strandsData.spangramCoords.length > 0) {
+      strandsData.spangramCoords.forEach(([x, y]) => {
+        const centerX = y * cellSize.width + cellSize.width / 2;
+        const centerY = x * cellSize.height + cellSize.height / 2;
+        const radius = Math.min(cellSize.width, cellSize.height) * 0.35;
+
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = '#ffd700';
+        ctx.fill();
+      });
+    }
+  }, [revealed, strandsData.themeCoords, strandsData.spangramCoords, cellSize]);
+
+  useEffect(() => {
+    drawSolutionPaths();
+    drawLetterCircles();
+  }, [drawSolutionPaths, drawLetterCircles]);
 
   if (!strandsData) {
     return (
@@ -59,24 +164,44 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
             <CardDescription className="text-base md:text-lg">{strandsData.printDate}</CardDescription>
           </CardHeader>
           <CardContent className={`transition-all duration-300 ${revealed ? "blur-0" : "blur-lg"}`}>
-            <div className="grid gap-0">
+            <div className="grid gap-0 relative">
                 {Array.isArray(strandsData.startingBoard) && strandsData.startingBoard.length > 0 ? (
                   strandsData.startingBoard.map((row, rowIndex) => (
                     <div key={rowIndex} className="flex">
                       {row.split('').map((char, colIndex) => (
-                        <div 
-                          key={`${rowIndex}-${colIndex}`} 
+                        <div
+                          key={`${rowIndex}-${colIndex}`}
                           className="w-10 h-10 bg-white border flex items-center justify-center border-gray-300"
                           data-coords={`(${colIndex},${rowIndex})`}
-                        >
-                          {char}
-                        </div>
+                          ref={rowIndex === 0 && colIndex === 0 ? cellRef : undefined}
+                        />
                       ))}
                     </div>
                   ))
                 ) : (
                   <span className="text-red-600">No board data available.</span>
                 )}
+                <canvas
+                  ref={canvasRef}
+                  className="absolute top-0 left-0 pointer-events-none z-10"
+                  style={{ width: '100%', height: '100%' }}
+                />
+                <div className="absolute top-0 left-0 w-full h-full z-20 pointer-events-none">
+                  {Array.isArray(strandsData.startingBoard) && strandsData.startingBoard.length > 0 ? (
+                    strandsData.startingBoard.map((row, rowIndex) => (
+                      <div key={rowIndex} className="flex">
+                        {row.split('').map((char, colIndex) => (
+                          <div
+                            key={`${rowIndex}-${colIndex}`}
+                            className="w-10 h-10 flex items-center justify-center"
+                          >
+                            <span className="text-black font-bold text-lg">{char}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ))
+                  ) : null}
+                </div>
             </div>
           </CardContent>
         </Card>
