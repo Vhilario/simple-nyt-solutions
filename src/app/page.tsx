@@ -2,12 +2,14 @@
 import { useState, useEffect } from "react";
 import WordleSection from "@/components/sections/WordleSection";
 import ConnectionsSection from "@/components/sections/ConnectionsSection";
+import StrandsSection from "@/components/sections/StrandsSection";
 import LetterBoxedSection from "@/components/sections/LetterBoxedSection";
 import SpellingBeeSection from "@/components/sections/SpellingBeeSection";
 
 export default function Home() {
   const [wordleData, setWordleData] = useState([]);
   const [connectionsData, setConnectionsData] = useState([]);
+  const [strandsData, setStrandsData] = useState([]);
   const [spellingBeeData, setSpellingBeeData] = useState([]);
   const [letterBoxedData, setLetterBoxedData] = useState([]);
 
@@ -24,6 +26,12 @@ export default function Home() {
       setConnectionsData(data);
       console.log(data);
     };
+    const fetchStrandsData = async () => {
+      const response = await fetch('/api/strands');
+      const data = await response.json();
+      setStrandsData(data);
+      console.log(data);
+    };
     const fetchSpellingBeeData = async () => {
       const response = await fetch('/api/spelling-bee');
       const data = await response.json();
@@ -38,6 +46,7 @@ export default function Home() {
     };
     fetchWordleData();
     fetchConnectionsData();
+    fetchStrandsData();
     fetchSpellingBeeData();
     fetchLetterBoxedData();
   }, []);
@@ -49,6 +58,7 @@ export default function Home() {
         <ConnectionsSection connectionsData={connectionsData} />
         <LetterBoxedSection letterBoxedData={letterBoxedData} />
         <SpellingBeeSection spellingBeeData={spellingBeeData} />
+        <StrandsSection strandsData={strandsData} />
     </div>
   );
 }
