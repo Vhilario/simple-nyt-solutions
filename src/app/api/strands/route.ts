@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server'
 
+export const runtime = 'edge'
+
 export async function GET() {
   try {
     const API_URL = process.env.API_URL || 'https://nyt-games-api.onrender.com/'
