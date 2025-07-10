@@ -81,7 +81,7 @@ export default function SpellingBeeSection({
             </section>
             <section>
               <h3 className="text-lg md:text-xl font-bold mb-1 md:mb-2">All Words</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-1 md:gap-2 max-h-96 overflow-y-auto">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-1 md:gap-2 max-h-96 overflow-y-auto">
                 {spellingBeeData.answers.map((word: string) => (
                   <span className="text-center text-base md:text-lg py-1" key={word}>
                     {word}
