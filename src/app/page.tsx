@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { AboutSection } from "@/components/sections/AboutSection";
 import WordleSection from "@/components/sections/WordleSection";
 import ConnectionsSection from "@/components/sections/ConnectionsSection";
 import StrandsSection from "@/components/sections/StrandsSection";
@@ -52,13 +53,14 @@ export default function Home() {
   }, []);
 
   return (
-    
+
     <div className="">
-        <WordleSection wordleData={wordleData} />
-        <ConnectionsSection connectionsData={connectionsData} />
-        <LetterBoxedSection letterBoxedData={letterBoxedData} />
-        <SpellingBeeSection spellingBeeData={spellingBeeData} />
-        <StrandsSection strandsData={strandsData} />
+      <AboutSection />
+      <WordleSection wordleData={wordleData} />
+      <ConnectionsSection connectionsData={connectionsData} />
+      <LetterBoxedSection letterBoxedData={letterBoxedData} />
+      <SpellingBeeSection spellingBeeData={spellingBeeData} />
+      <StrandsSection strandsData={strandsData} />
     </div>
   );
 }
