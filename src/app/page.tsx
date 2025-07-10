@@ -75,7 +75,3 @@ export default function Home() {
     </div>
   );
 }
-{/* <pre>{JSON.stringify(wordleData, null, 2)}</pre>
-      <pre>{JSON.stringify(connectionsData, null, 2)}</pre>
-      <pre>{JSON.stringify(spellingBeeData, null, 2)}</pre>
-      <pre>{JSON.stringify(letterBoxedData, null, 2)}</pre> */}

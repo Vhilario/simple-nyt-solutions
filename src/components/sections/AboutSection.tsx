@@ -29,7 +29,7 @@ export const AboutSection = () => {
           >
             <div className="flex flex-col items-center justify-center gap-1 md:gap-2">
                 <h2 className="text-lg md:text-xl font-bold">
-                    This is a simple app for "NYT" games. This app is built with React (Next.js), Tailwind CSS, and TypeScript.
+                    This is a simple app for &quot;NYT&quot; games. This app is built with React (Next.js), Tailwind CSS, and TypeScript.
                 </h2>
                 <h2 className="text-lg md:text-xl font-bold">
                     <span className="text-red-500">Spoiler warning:</span> This app WILL reveal the solutions to the NYT games, for today. <span className="text-red-500 underline">Click at your own risk!</span>
