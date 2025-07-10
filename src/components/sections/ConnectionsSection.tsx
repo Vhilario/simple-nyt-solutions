@@ -31,7 +31,7 @@ export default function ConnectionsSection({ connectionsData }: { connectionsDat
   }
   if (!connectionsData) {
     return (
-      <div className="w-full min-h-screen bg-[#b4a8fe] flex flex-col items-center justify-center">
+      <div className="w-full max-h-screen bg-[#b4a8fe] flex flex-col items-center justify-center">
         <Card className="w-full max-w-md sm:max-w-lg md:max-w-4xl mx-2 sm:mx-4 md:mx-auto bg-white/80 border-2 border-black rounded-xl shadow-lg p-4">
           <CardHeader>
             <CardTitle>Connections</CardTitle>
@@ -47,7 +47,7 @@ export default function ConnectionsSection({ connectionsData }: { connectionsDat
   // Defensive check for groups
   if (!connectionsData.groups || typeof connectionsData.groups !== 'object') {
     return (
-      <div className="w-full min-h-screen bg-[#b4a8fe] flex flex-col items-center justify-center">
+      <div className="w-full max-h-screen bg-[#b4a8fe] flex flex-col items-center justify-center">
         <Card className="w-full max-w-md sm:max-w-lg md:max-w-2xl mx-2 sm:mx-4 md:mx-auto bg-white/80 border-2 border-black rounded-xl shadow-lg p-4">
           <CardHeader>
             <CardTitle>Connections</CardTitle>
@@ -62,7 +62,7 @@ export default function ConnectionsSection({ connectionsData }: { connectionsDat
 
   return (
     <div
-      className="w-full min-h-screen bg-[#b4a8fe] flex flex-col items-center justify-center relative cursor-pointer"
+      className="w-full max-h-screen bg-[#b4a8fe] flex flex-col items-center justify-center relative cursor-pointer"
       onClick={() => setRevealed(!revealed)}
     >
       <div
