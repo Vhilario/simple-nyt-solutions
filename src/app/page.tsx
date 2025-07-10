@@ -53,14 +53,25 @@ export default function Home() {
   }, []);
 
   return (
-
-    <div className="">
-      <AboutSection />
-      <WordleSection wordleData={wordleData} />
-      <ConnectionsSection connectionsData={connectionsData} />
-      <LetterBoxedSection letterBoxedData={letterBoxedData} />
-      <SpellingBeeSection spellingBeeData={spellingBeeData} />
-      <StrandsSection strandsData={strandsData} />
+    <div className="h-screen overflow-y-scroll snap-y snap-mandatory">
+      <div className="snap-start">
+        <AboutSection />
+      </div>
+      <div className="snap-start">
+        <WordleSection wordleData={wordleData} />
+      </div>
+      <div className="snap-start">
+        <ConnectionsSection connectionsData={connectionsData} />
+      </div>
+      <div className="snap-start">
+        <LetterBoxedSection letterBoxedData={letterBoxedData} />
+      </div>
+      <div className="snap-start">
+        <SpellingBeeSection spellingBeeData={spellingBeeData} />
+      </div>
+      <div className="snap-start">
+        <StrandsSection strandsData={strandsData} />
+      </div>
     </div>
   );
 }
