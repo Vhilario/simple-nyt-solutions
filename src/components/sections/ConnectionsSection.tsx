@@ -32,7 +32,7 @@ export default function ConnectionsSection({ connectionsData }: { connectionsDat
   if (!connectionsData) {
     return (
         <div className="w-full min-h-screen bg-[#b4a8fe] flex flex-col items-center justify-center">
-        <Card className="w-full max-w-md sm:max-w-lg md:max-w-4xl mx-2 sm:mx-4 md:mx-auto bg-white/80 border-2 border-black rounded-xl shadow-lg p-4">
+        <Card className="w-full max-w-md sm:max-w-lg md:max-w-4xl lg:max-w-5xl xl:max-w-6xl mx-2 sm:mx-4 md:mx-auto bg-white/80 border-2 border-black rounded-xl shadow-lg p-4">
           <CardHeader>
             <CardTitle>Connections</CardTitle>
           </CardHeader>
@@ -77,12 +77,12 @@ export default function ConnectionsSection({ connectionsData }: { connectionsDat
         </div>
       </div>
       <div className="py-24">
-        <Card className="w-full max-w-md sm:max-w-lg md:max-w-4xl mx-2 sm:mx-4 md:mx-auto bg-white/80 border-2 border-black rounded-xl shadow-lg p-4">
+        <Card className="w-full max-w-md sm:max-w-lg md:max-w-4xl lg:max-w-5xl xl:max-w-6xl mx-2 sm:mx-4 md:mx-auto bg-white/80 border-2 border-black rounded-xl shadow-lg p-4">
           <CardHeader>
-            <CardTitle className="text-xl md:text-3xl font-extrabold">
+            <CardTitle className="text-xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold">
               Connections
             </CardTitle>
-            <CardDescription className="text-base md:text-lg">
+            <CardDescription className="text-base md:text-lg lg:text-xl xl:text-2xl">
               {connectionsData.printDate}
             </CardDescription>
           </CardHeader>
@@ -97,11 +97,11 @@ export default function ConnectionsSection({ connectionsData }: { connectionsDat
                   style={{ backgroundColor: groupColors[group.level] }}
                 >
                   <div className="items-center justify-between mb-2">
-                    <span className="font-bold text-lg">{groupName}</span>
+                    <span className="font-bold text-lg md:text-xl lg:text-2xl xl:text-3xl">{groupName}</span>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {group.members.map((member, idx) => (
-                      <span key={idx} className="bg-white border px-3 py-1 rounded shadow text-gray-800">
+                      <span key={idx} className="bg-white border px-3 py-1 rounded shadow text-gray-800 text-base md:text-lg lg:text-xl xl:text-2xl">
                         {member}
                       </span>
                     ))}

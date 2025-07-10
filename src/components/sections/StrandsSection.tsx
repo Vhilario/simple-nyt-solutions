@@ -65,6 +65,20 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
     }
   }, [strandsData.startingBoard]);
 
+  // Update cell size and redraw canvas on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (cellRef.current) {
+        const rect = cellRef.current.getBoundingClientRect();
+        setCellSize({ width: rect.width, height: rect.height });
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    // Initial call in case resize happened before mount
+    handleResize();
+    return () => window.removeEventListener('resize', handleResize);
+  }, [strandsData.startingBoard]);
+
   // Set canvas size to match grid
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -85,6 +99,8 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
+    // Responsive line width based on cell size
+    const baseLineWidth = Math.max(4, Math.floor(cellSize.width * 0.15));
     // Draw theme word paths
     Object.entries(strandsData.themeCoords).forEach(([, coords]) => {
       if (coords.length === 0) return;
@@ -99,7 +115,7 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
         ctx.lineTo(canvasX, canvasY);
       });
       ctx.strokeStyle = '#aedfee';
-      ctx.lineWidth = 4;
+      ctx.lineWidth = baseLineWidth;
       ctx.stroke();
     });
     // Draw spangram path
@@ -114,7 +130,7 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
         ctx.lineTo(canvasX, canvasY);
       });
       ctx.strokeStyle = '#ffd700';
-      ctx.lineWidth = 4;
+      ctx.lineWidth = baseLineWidth;
       ctx.stroke();
     }
   }, [revealed, strandsData.themeCoords, strandsData.spangramCoords, cellSize]);
@@ -164,7 +180,7 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
       <div className="w-full min-h-screen bg-[#c0ddd9] flex flex-col items-center justify-center">
         <Card className="w-full max-w-2xl text-center">
           <CardHeader>
-            <CardTitle>Strands</CardTitle>
+            <CardTitle className="text-xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold">Strands</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-red-600">No data available.</p>
@@ -188,13 +204,13 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
           <p className="text-gray-700 font-medium text-lg">Click to reveal</p>
         </div>
       </div>
-      <div className="py-10">
-        <Card className="w-full max-w-2xl mx-2 sm:mx-4 md:mx-auto bg-white/80 border-2 border-black rounded-xl shadow-lg p-4 md:p-8">
+      <div className="py-5">
+        <Card className="w-full max-w-4xl mx-2 sm:mx-4 md:mx-auto bg-white/80 border-2 border-black rounded-xl shadow-lg p-4 md:p-8">
           <CardHeader>
-            <CardTitle className="text-xl md:text-3xl font-extrabold">Strands</CardTitle>
-            <CardDescription className="text-base md:text-lg">{strandsData.printDate}</CardDescription>
+            <CardTitle className="text-xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold">Strands</CardTitle>
+            <CardDescription className="text-base md:text-lg lg:text-xl xl:text-2xl">{strandsData.printDate}</CardDescription>
           </CardHeader>
-            <div className={`flex justify-center items-center font-bold text-xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] ${revealed ? '' : 'hidden'}`}>
+            <div className={`flex justify-center items-center font-bold text-xl md:text-2xl lg:text-3xl xl:text-4xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] ${revealed ? '' : 'hidden'}`}>
               <h1 className={currentWord === strandsData.spangram ? 'text-[#ffd700]' : 'text-[#aedfee]'}>
                 {currentWord}
               </h1>
@@ -207,7 +223,7 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
                       {row.split('').map((char, colIndex) => (
                         <div
                           key={`${rowIndex}-${colIndex}`}
-                          className="w-10 h-10 bg-white border flex items-center justify-center border-gray-300"
+                          className="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 bg-white border flex items-center justify-center border-gray-300"
                           data-coords={`(${colIndex},${rowIndex})`}
                           ref={rowIndex === 0 && colIndex === 0 ? cellRef : undefined}
                           onMouseEnter={() => handleCellInteraction(rowIndex, colIndex)}
@@ -232,12 +248,12 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
                         {row.split('').map((char, colIndex) => (
                           <div
                             key={`${rowIndex}-${colIndex}`}
-                            className="w-10 h-10 flex items-center justify-center cursor-pointer"
+                            className="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 flex items-center justify-center cursor-pointer"
                             onMouseEnter={() => handleCellInteraction(rowIndex, colIndex)}
                             onMouseLeave={handleMouseLeave}
                             onClick={() => handleCellInteraction(rowIndex, colIndex)}
                           >
-                            <span className="text-black font-bold text-lg">{char}</span>
+                            <span className="text-xl md:text-2xl lg:text-3xl text-black font-bold">{char}</span>
                           </div>
                         ))}
                       </div>

@@ -58,20 +58,20 @@ export default function SpellingBeeSection({
         </div>
       </div>
       <div className="py-10">
-        <Card className="w-full max-w-6xl mx-2 sm:mx-4 md:mx-auto lg:min-w-[768px] bg-white/80 border-2 border-black rounded-xl shadow-lg p-4 md:p-8">
+        <Card className="w-full max-w-6xl lg:max-w-7xl xl:max-w-[96rem] mx-2 sm:mx-4 md:mx-auto lg:min-w-[768px] bg-white/80 border-2 border-black rounded-xl shadow-lg p-4 md:p-8">
           <CardHeader>
-            <CardTitle className="text-xl md:text-3xl font-extrabold">
+            <CardTitle className="text-xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold">
               Spelling Bee
             </CardTitle>
-            <CardDescription className="text-base md:text-lg">{date}</CardDescription>
+            <CardDescription className="text-base md:text-lg lg:text-xl xl:text-2xl">{date}</CardDescription>
           </CardHeader>
           <CardContent className={`transition-all duration-300 ${revealed ? "blur-0" : "blur-sm"}`}>
             <section className="mb-4 md:mb-8">
-              <h3 className="text-lg md:text-xl font-bold mb-1 md:mb-2">Pangrams</h3>
+              <h3 className="text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold mb-1 md:mb-2">Pangrams</h3>
               <div className="flex flex-wrap gap-1 md:gap-2">
                 {spellingBeeData.pangrams.map((p: string) => (
                   <span
-                    className="bg-yellow-300 border border-yellow-600 rounded-full px-3 md:px-4 py-1 font-semibold text-base md:text-lg"
+                    className="bg-yellow-300 border border-yellow-600 rounded-full px-3 md:px-4 py-1 font-semibold text-base md:text-lg lg:text-xl xl:text-2xl"
                     key={p}
                   >
                     {p}
@@ -80,10 +80,10 @@ export default function SpellingBeeSection({
               </div>
             </section>
             <section>
-              <h3 className="text-lg md:text-xl font-bold mb-1 md:mb-2">All Words</h3>
+              <h3 className="text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold mb-1 md:mb-2">All Words</h3>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-1 md:gap-2 max-h-96 overflow-y-auto">
                 {spellingBeeData.answers.map((word: string) => (
-                  <span className="text-center text-base md:text-lg py-1" key={word}>
+                  <span className="text-center text-base md:text-lg lg:text-xl xl:text-2xl py-1" key={word}>
                     {word}
                   </span>
                 ))}

@@ -66,15 +66,15 @@ export default function LetterBoxedSection({ letterBoxedData }: { letterBoxedDat
           </p>
         </div>
       </div>
-      <Card className="w-full max-w-md sm:max-w-lg md:max-w-2xl mx-2 sm:mx-4 md:mx-auto bg-white/80 border-2 border-black rounded-xl shadow-lg p-4 md:p-8">
+      <Card className="w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-2 sm:mx-4 md:mx-auto bg-white/80 border-2 border-black rounded-xl shadow-lg p-4 md:p-8">
         <CardHeader>
-          <CardTitle className="text-xl md:text-3xl font-extrabold">Letter Boxed</CardTitle>
-          <CardDescription className="text-base md:text-lg">{letterBoxedData.printDate}</CardDescription>
+          <CardTitle className="text-xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold">Letter Boxed</CardTitle>
+          <CardDescription className="text-base md:text-lg lg:text-xl xl:text-2xl">{letterBoxedData.printDate}</CardDescription>
         </CardHeader>
         <CardContent className={`py-6 md:py-12 flex flex-col gap-6 transition-all duration-300 ${revealed ? "blur-0" : "blur-lg"}`}>
           <div className="flex flex-col items-center">
             <span className="text-gray-700 text-lg mb-1">NYT Solution:</span>
-            <span className="bg-[#fc716c]/20 border-2 border-[#fc716c] rounded-full px-4 py-1 font-bold text-2xl">
+            <span className="bg-[#fc716c]/20 border-2 border-[#fc716c] rounded-full px-4 py-1 font-bold text-2xl md:text-3xl lg:text-4xl xl:text-5xl">
               {letterBoxedData.ourSolution && letterBoxedData.ourSolution.length > 0
                 ? solutionToString(letterBoxedData.ourSolution)
                 : <span className="text-red-600">No solution available.</span>}
@@ -85,7 +85,7 @@ export default function LetterBoxedSection({ letterBoxedData }: { letterBoxedDat
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-1 md:gap-2 max-h-96 overflow-y-auto">
                 {Array.isArray(letterBoxedData.allSolutions) && letterBoxedData.allSolutions.length > 0 ? (
                   letterBoxedData.allSolutions.map((wordPair: string[]) => (
-                    <span className="text-center text-base md:text-lg py-1" key={solutionToString(wordPair)}>
+                    <span className="text-center text-base md:text-lg lg:text-xl xl:text-2xl py-1" key={solutionToString(wordPair)}>
                       {solutionToString(wordPair)}
                     </span>
                   ))
