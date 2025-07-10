@@ -25,6 +25,37 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cellRef = useRef<HTMLDivElement>(null);
   const [cellSize, setCellSize] = useState({ width: 40, height: 40 });
+  const [currentWord, setCurrentWord] = useState('')
+
+  // Helper function to find which word contains a given coordinate
+  const findWordAtCoordinate = useCallback((row: number, col: number): string => {
+    if (!strandsData.themeCoords || !strandsData.spangramCoords) return '';
+    
+    // Check theme words
+    for (const [word, coords] of Object.entries(strandsData.themeCoords)) {
+      if (coords.some(([x, y]) => x === row && y === col)) {
+        return word;
+      }
+    }
+    
+    // Check spangram
+    if (strandsData.spangramCoords.some(([x, y]) => x === row && y === col)) {
+      return strandsData.spangram;
+    }
+    
+    return '';
+  }, [strandsData.themeCoords, strandsData.spangramCoords, strandsData.spangram]);
+
+  // Handle cell hover/tap
+  const handleCellInteraction = useCallback((row: number, col: number) => {
+    const word = findWordAtCoordinate(row, col);
+    setCurrentWord(word);
+  }, [findWordAtCoordinate]);
+
+  // Handle mouse leave to clear current word
+  const handleMouseLeave = useCallback(() => {
+    setCurrentWord('');
+  }, []);
 
   // Measure cell size after mount
   useEffect(() => {
@@ -163,6 +194,11 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
             <CardTitle className="text-xl md:text-3xl font-extrabold">Strands</CardTitle>
             <CardDescription className="text-base md:text-lg">{strandsData.printDate}</CardDescription>
           </CardHeader>
+            <div className={`flex justify-center items-center font-bold text-xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] ${revealed ? '' : 'hidden'}`}>
+              <h1 className={currentWord === strandsData.spangram ? 'text-[#ffd700]' : 'text-[#aedfee]'}>
+                {currentWord}
+              </h1>
+            </div>
           <CardContent className={`transition-all duration-300 ${revealed ? "blur-0" : "blur-lg"}`}>
             <div className="grid gap-0 relative">
                 {Array.isArray(strandsData.startingBoard) && strandsData.startingBoard.length > 0 ? (
@@ -174,6 +210,9 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
                           className="w-10 h-10 bg-white border flex items-center justify-center border-gray-300"
                           data-coords={`(${colIndex},${rowIndex})`}
                           ref={rowIndex === 0 && colIndex === 0 ? cellRef : undefined}
+                          onMouseEnter={() => handleCellInteraction(rowIndex, colIndex)}
+                          onMouseLeave={handleMouseLeave}
+                          onClick={() => handleCellInteraction(rowIndex, colIndex)}
                         />
                       ))}
                     </div>
@@ -186,14 +225,17 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
                   className="absolute top-0 left-0 pointer-events-none z-10"
                   style={{ width: '100%', height: '100%' }}
                 />
-                <div className="absolute top-0 left-0 w-full h-full z-20 pointer-events-none">
+                <div className="absolute top-0 left-0 w-full h-full z-20">
                   {Array.isArray(strandsData.startingBoard) && strandsData.startingBoard.length > 0 ? (
                     strandsData.startingBoard.map((row, rowIndex) => (
                       <div key={rowIndex} className="flex">
                         {row.split('').map((char, colIndex) => (
                           <div
                             key={`${rowIndex}-${colIndex}`}
-                            className="w-10 h-10 flex items-center justify-center"
+                            className="w-10 h-10 flex items-center justify-center cursor-pointer"
+                            onMouseEnter={() => handleCellInteraction(rowIndex, colIndex)}
+                            onMouseLeave={handleMouseLeave}
+                            onClick={() => handleCellInteraction(rowIndex, colIndex)}
                           >
                             <span className="text-black font-bold text-lg">{char}</span>
                           </div>
