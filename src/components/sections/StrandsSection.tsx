@@ -246,7 +246,7 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
                             onMouseEnter={() => handleCellInteraction(rowIndex, colIndex)}
                             onClick={() => handleCellInteraction(rowIndex, colIndex)}
                           >
-                            <span className="text-base sm:text-lg md:text-2xl lg:text-3xl text-black font-bold">{char}</span>
+                            <span className="text-base sm:text-lg md:text-2xl text-black font-bold">{char}</span>
                           </div>
                         ))}
                       </div>
