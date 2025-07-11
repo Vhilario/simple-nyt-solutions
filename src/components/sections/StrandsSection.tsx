@@ -52,14 +52,6 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
     setCurrentWord(word);
   }, [findWordAtCoordinate]);
 
-  // Handle mouse leave to clear current word (only on desktop)
-  const handleMouseLeave = useCallback(() => {
-    // Only clear on desktop - mobile taps should persist the word
-    if (window.innerWidth > 768) {
-      setCurrentWord('');
-    }
-  }, []);
-
   // Measure cell size after mount
   useEffect(() => {
     if (cellRef.current) {
@@ -207,13 +199,13 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
           <p className="text-gray-700 font-medium text-lg">Click to reveal</p>
         </div>
       </div>
-      <div className="py-5">
-        <Card className="w-full max-w-4xl mx-2 sm:mx-4 md:mx-auto bg-white/80 border-2 border-black rounded-xl shadow-lg p-4 md:p-8">
+      <div className="py-4 sm:py-6 md:py-8">
+        <Card className="w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto bg-white/80 border-2 border-black rounded-xl shadow-lg p-2 sm:p-4 md:p-6 lg:p-8">
           <CardHeader>
-            <CardTitle className="text-xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold">Strands</CardTitle>
-            <CardDescription className="text-base md:text-lg lg:text-xl xl:text-2xl">{strandsData.printDate}</CardDescription>
+            <CardTitle className="text-lg sm:text-xl md:text-3xl lg:text-4xl font-extrabold">Strands</CardTitle>
+            <CardDescription className="text-sm sm:text-base md:text-lg lg:text-xl">{strandsData.printDate}</CardDescription>
           </CardHeader>
-            <div className={`flex justify-center items-center font-bold text-xl md:text-2xl lg:text-3xl xl:text-4xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] ${revealed ? '' : 'hidden'}`}>
+            <div className={`flex justify-center items-center font-bold text-base sm:text-lg md:text-2xl lg:text-3xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] ${revealed ? '' : 'hidden'}`}> 
               <h1 className={currentWord === strandsData.spangram ? 'text-[#ffd700]' : 'text-[#aedfee]'}>
                 {currentWord}
               </h1>
@@ -226,11 +218,10 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
                       {row.split('').map((char, colIndex) => (
                         <div
                           key={`${rowIndex}-${colIndex}`}
-                          className="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 bg-white border flex items-center justify-center border-gray-300"
+                          className="w-10 h-10 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-12 lg:h-12 bg-white border flex items-center justify-center border-gray-300"
                           data-coords={`(${colIndex},${rowIndex})`}
                           ref={rowIndex === 0 && colIndex === 0 ? cellRef : undefined}
                           onMouseEnter={() => handleCellInteraction(rowIndex, colIndex)}
-                          onMouseLeave={handleMouseLeave}
                           onClick={() => handleCellInteraction(rowIndex, colIndex)}
                         />
                       ))}
@@ -251,12 +242,11 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
                         {row.split('').map((char, colIndex) => (
                           <div
                             key={`${rowIndex}-${colIndex}`}
-                            className="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 flex items-center justify-center cursor-pointer"
+                            className="w-10 h-10 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-12 lg:h-12 flex items-center justify-center cursor-pointer"
                             onMouseEnter={() => handleCellInteraction(rowIndex, colIndex)}
-                            onMouseLeave={handleMouseLeave}
                             onClick={() => handleCellInteraction(rowIndex, colIndex)}
                           >
-                            <span className="text-xl md:text-2xl lg:text-3xl text-black font-bold">{char}</span>
+                            <span className="text-base sm:text-lg md:text-2xl lg:text-3xl text-black font-bold">{char}</span>
                           </div>
                         ))}
                       </div>

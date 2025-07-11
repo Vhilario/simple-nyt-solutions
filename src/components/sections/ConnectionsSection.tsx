@@ -62,7 +62,7 @@ export default function ConnectionsSection({ connectionsData }: { connectionsDat
 
   return (
     <div
-      className="w-full min-h-screen bg-[#b4a8fe] flex flex-col items-center justify-center relative cursor-pointer"
+      className="w-full h-screen bg-[#b4a8fe] flex flex-col items-center justify-center relative cursor-pointer"
       onClick={() => setRevealed(!revealed)}
     >
       <div
@@ -76,32 +76,32 @@ export default function ConnectionsSection({ connectionsData }: { connectionsDat
           </p>
         </div>
       </div>
-      <div className="py-24">
-        <Card className="w-full max-w-md sm:max-w-lg md:max-w-4xl lg:max-w-5xl xl:max-w-6xl mx-2 sm:mx-4 md:mx-auto bg-white/80 border-2 border-black rounded-xl shadow-lg p-4">
+      <div className="py-8 sm:py-16 md:py-24">
+        <Card className="w-full max-w-xs sm:max-w-md md:max-w-4xl lg:max-w-5xl xl:max-w-6xl mx-1 sm:mx-2 md:mx-4 lg:mx-auto bg-white/80 border-2 border-black rounded-xl shadow-lg p-2 sm:p-4 gap-2">
           <CardHeader>
-            <CardTitle className="text-xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold">
+            <CardTitle className="text-lg sm:text-xl md:text-3xl lg:text-4xl font-extrabold">
               Connections
             </CardTitle>
-            <CardDescription className="text-base md:text-lg lg:text-xl xl:text-2xl">
+            <CardDescription className="text-sm sm:text-base md:text-lg lg:text-xl">
               {connectionsData.printDate}
             </CardDescription>
           </CardHeader>
           <CardContent
-            className={`transition-all duration-300 py-6 md:py-12 ${revealed ? "blur-0" : "blur-lg"}`}
+            className={`transition-all duration-300 py-3 sm:py-4 md:py-8 ${revealed ? "blur-0" : "blur-lg"}`}
           >
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-3 sm:gap-4 md:gap-6">
               {Object.entries(connectionsData.groups).map(([groupName, group]) => (
                 <div
                   key={groupName}
-                  className="border rounded-lg p-4"
+                  className="border rounded-lg p-2 sm:p-4"
                   style={{ backgroundColor: groupColors[group.level] }}
                 >
-                  <div className="items-center justify-between mb-2">
-                    <span className="font-bold text-lg md:text-xl lg:text-2xl xl:text-3xl">{groupName}</span>
+                  <div className="items-center justify-between mb-1 sm:mb-2">
+                    <span className="font-bold text-base sm:text-md md:text-xl lg:text-2xl">{groupName}</span>
                   </div>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1 sm:gap-2">
                     {group.members.map((member, idx) => (
-                      <span key={idx} className="bg-white border px-3 py-1 rounded shadow text-gray-800 text-base md:text-lg lg:text-xl xl:text-2xl">
+                      <span key={idx} className="bg-white border px-2 py-0.5 sm:px-3 sm:py-1 rounded shadow text-gray-800 text-sm sm:text-base md:text-lg lg:text-xl">
                         {member}
                       </span>
                     ))}
