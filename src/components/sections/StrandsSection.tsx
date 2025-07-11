@@ -52,9 +52,12 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
     setCurrentWord(word);
   }, [findWordAtCoordinate]);
 
-  // Handle mouse leave to clear current word
+  // Handle mouse leave to clear current word (only on desktop)
   const handleMouseLeave = useCallback(() => {
-    setCurrentWord('');
+    // Only clear on desktop - mobile taps should persist the word
+    if (window.innerWidth > 768) {
+      setCurrentWord('');
+    }
   }, []);
 
   // Measure cell size after mount
@@ -193,7 +196,7 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
   return (
     <div
       className="w-full min-h-screen bg-[#c0ddd9] flex flex-col items-center justify-center relative cursor-pointer"
-      onClick={() => setRevealed(!revealed)}
+      onClick={() => setRevealed(true)}
     >
       <div
         className={`absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-50 transition-opacity duration-300 ${
