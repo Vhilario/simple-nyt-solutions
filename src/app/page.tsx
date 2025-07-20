@@ -84,7 +84,7 @@ export default async function Home() {
   const { wordleData, connectionsData, strandsData, spellingBeeData, letterBoxedData } = await getData();
 
   return (
-    <div className="h-[100dvh] overflow-y-auto snap-y snap-mandatory fixed inset-0">
+    <div className="h-screen overflow-y-auto snap-y snap-mandatory fixed inset-0">
       <div className="snap-start">
         <AboutSection />
       </div>
