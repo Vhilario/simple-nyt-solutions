@@ -4,29 +4,6 @@ import ConnectionsSection from "@/components/sections/ConnectionsSection";
 import StrandsSection from "@/components/sections/StrandsSection";
 import LetterBoxedSection from "@/components/sections/LetterBoxedSection";
 import SpellingBeeSection from "@/components/sections/SpellingBeeSection";
-import { toZonedTime } from 'date-fns-tz'
-
-// Calculate time until next puzzle reset (3:01 AM PST)
-function getTimeUntilNextReset() {
-  const timeZone = 'America/Los_Angeles' // PST/PDT
-  const now = new Date()
-  
-  // Get today's 3:01 AM in PST
-  const todayReset = toZonedTime(
-    new Date(now.getFullYear(), now.getMonth(), now.getDate(), 3, 1, 0), 
-    timeZone
-  )
-  
-  // If already past 3:01 AM today, get tomorrow's reset
-  const nextReset = now >= todayReset 
-    ? toZonedTime(
-        new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 3, 1, 0), 
-        timeZone
-      )
-    : todayReset
-  
-  return Math.floor((nextReset.getTime() - now.getTime()) / 1000)
-}
 
 // Server-side data fetching with Next.js caching
 async function getData() {
