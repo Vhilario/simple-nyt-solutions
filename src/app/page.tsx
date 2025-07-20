@@ -1,59 +1,89 @@
-"use client";
-import { useState, useEffect } from "react";
 import { AboutSection } from "@/components/sections/AboutSection";
 import WordleSection from "@/components/sections/WordleSection";
 import ConnectionsSection from "@/components/sections/ConnectionsSection";
 import StrandsSection from "@/components/sections/StrandsSection";
 import LetterBoxedSection from "@/components/sections/LetterBoxedSection";
 import SpellingBeeSection from "@/components/sections/SpellingBeeSection";
+import { toZonedTime } from 'date-fns-tz'
 
-export default function Home() {
-  const [wordleData, setWordleData] = useState([]);
-  const [connectionsData, setConnectionsData] = useState([]);
-  const [strandsData, setStrandsData] = useState([]);
-  const [spellingBeeData, setSpellingBeeData] = useState([]);
-  const [letterBoxedData, setLetterBoxedData] = useState([]);
+// Calculate time until next puzzle reset (3:01 AM PST)
+function getTimeUntilNextReset() {
+  const timeZone = 'America/Los_Angeles' // PST/PDT
+  const now = new Date()
+  
+  // Get today's 3:01 AM in PST
+  const todayReset = toZonedTime(
+    new Date(now.getFullYear(), now.getMonth(), now.getDate(), 3, 1, 0), 
+    timeZone
+  )
+  
+  // If already past 3:01 AM today, get tomorrow's reset
+  const nextReset = now >= todayReset 
+    ? toZonedTime(
+        new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 3, 1, 0), 
+        timeZone
+      )
+    : todayReset
+  
+  return Math.floor((nextReset.getTime() - now.getTime()) / 1000)
+}
 
-  useEffect(() => {
-    const fetchWordleData = async () => {
-      const response = await fetch('/api/wordle');
-      const data = await response.json();
-      setWordleData(data);
-      console.log(data);
+// Server-side data fetching with Next.js caching
+async function getData() {
+  const API_URL = process.env.API_URL || 'https://nyt-games-api.onrender.com/';
+  
+  try {
+    const [wordleRes, connectionsRes, strandsRes, spellingBeeRes, letterBoxedRes] = await Promise.all([
+      fetch(`${API_URL}get_wordle_data`, { 
+        next: { revalidate: getTimeUntilNextReset() } // Cache until next puzzle reset
+      }),
+      fetch(`${API_URL}get_connections_data`, { 
+        next: { revalidate: getTimeUntilNextReset() } 
+      }),
+      fetch(`${API_URL}get_strands_data`, { 
+        next: { revalidate: getTimeUntilNextReset() } 
+      }),
+      fetch(`${API_URL}get_spelling_bee_data`, { 
+        next: { revalidate: getTimeUntilNextReset() } 
+      }),
+      fetch(`${API_URL}get_letter_boxed_data`, { 
+        next: { revalidate: getTimeUntilNextReset() } 
+      })
+    ]);
+
+    const [wordleData, connectionsData, strandsData, spellingBeeData, letterBoxedData] = await Promise.all([
+      wordleRes.json(),
+      connectionsRes.json(),
+      strandsRes.json(),
+      spellingBeeRes.json(),
+      letterBoxedRes.json()
+    ]);
+
+    return {
+      wordleData,
+      connectionsData,
+      strandsData,
+      spellingBeeData,
+      letterBoxedData
     };
-    const fetchConnectionsData = async () => {
-      const response = await fetch('/api/connections');
-      const data = await response.json();
-      setConnectionsData(data);
-      console.log(data);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    // Return empty arrays as fallback
+    return {
+      wordleData: [],
+      connectionsData: [],
+      strandsData: [],
+      spellingBeeData: [],
+      letterBoxedData: []
     };
-    const fetchStrandsData = async () => {
-      const response = await fetch('/api/strands');
-      const data = await response.json();
-      setStrandsData(data);
-      console.log(data);
-    };
-    const fetchSpellingBeeData = async () => {
-      const response = await fetch('/api/spelling-bee');
-      const data = await response.json();
-      setSpellingBeeData(data);
-      console.log(data);
-    };
-    const fetchLetterBoxedData = async () => {
-      const response = await fetch('/api/letter-boxed');
-      const data = await response.json();
-      setLetterBoxedData(data);
-      console.log(data);
-    };
-    fetchWordleData();
-    fetchConnectionsData();
-    fetchStrandsData();
-    fetchSpellingBeeData();
-    fetchLetterBoxedData();
-  }, []);
+  }
+}
+
+export default async function Home() {
+  const { wordleData, connectionsData, strandsData, spellingBeeData, letterBoxedData } = await getData();
 
   return (
-    <div className="h-screen overflow-y-scroll snap-y snap-mandatory">
+    <div className="h-[100dvh] overflow-y-scroll snap-y snap-mandatory">
       <div className="snap-start">
         <AboutSection />
       </div>
@@ -75,3 +105,6 @@ export default function Home() {
     </div>
   );
 }
+
+// Enable Incremental Static Regeneration - rebuild pages at next puzzle reset
+export const revalidate = getTimeUntilNextReset();

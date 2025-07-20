@@ -1,3 +1,4 @@
+"use client";
 import {
   Card,
   CardHeader,
@@ -15,7 +16,7 @@ type SpellingBeeData = {
 export default function SpellingBeeSection({
   spellingBeeData,
 }: {
-  spellingBeeData?: SpellingBeeData;
+  spellingBeeData: SpellingBeeData;
 }) {
   const [date, setDate] = useState("");
   const [revealed, setRevealed] = useState(false);
@@ -24,28 +25,9 @@ export default function SpellingBeeSection({
     setDate(today);
   }, []);
 
-  if (
-    !spellingBeeData ||
-    !Array.isArray(spellingBeeData.pangrams) ||
-    !Array.isArray(spellingBeeData.answers)
-  ) {
-    return (
-      <div className="w-full min-h-screen bg-[#f8da22] flex flex-col items-center justify-center">
-        <Card className="w-full max-w-2xl text-center">
-          <CardHeader>
-            <CardTitle>Spelling Bee</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-red-600">No data available.</p>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
   return (
     <div 
-      className="w-full min-h-screen bg-[#f8da22] flex flex-col items-center justify-center relative cursor-pointer"
+      className="w-full min-h-[100dvh] bg-[#f8da22] flex flex-col items-center justify-center relative cursor-pointer"
       onClick={() => setRevealed(!revealed)}
     >
       <div 
@@ -69,24 +51,24 @@ export default function SpellingBeeSection({
             <section className="mb-2 sm:mb-4 md:mb-8">
               <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold mb-0.5 sm:mb-1 md:mb-2">Pangrams</h3>
               <div className="flex flex-wrap gap-0.5 sm:gap-1 md:gap-2">
-                {spellingBeeData.pangrams.map((p: string) => (
+                {spellingBeeData.pangrams?.map((p: string) => (
                   <span
                     className="bg-yellow-300 border border-yellow-600 rounded-full px-2 sm:px-3 md:px-4 py-0.5 sm:py-1 font-semibold text-sm sm:text-base md:text-lg lg:text-xl"
                     key={p}
                   >
                     {p}
                   </span>
-                ))}
+                )) || <span className="text-red-600">No pangrams available.</span>}
               </div>
             </section>
             <section>
               <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold mb-0.5 sm:mb-1 md:mb-2">All Words</h3>
               <div className="grid grid-cols-3  md:grid-cols-4 gap-0.5 sm:gap-1 md:gap-2 max-h-64 sm:max-h-80 md:max-h-96 overflow-y-auto">
-                {spellingBeeData.answers.map((word: string) => (
+                {spellingBeeData.answers?.map((word: string) => (
                   <span className="text-center text-sm sm:text-base md:text-lg lg:text-xl py-0.5 sm:py-1" key={word}>
                     {word}
                   </span>
-                ))}
+                )) || <span className="text-red-600">No answers available.</span>}
               </div>
             </section>
           </CardContent>

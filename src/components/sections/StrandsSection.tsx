@@ -1,3 +1,4 @@
+"use client";
 import {
   Card,
   CardContent,
@@ -170,24 +171,9 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
     drawLetterCircles();
   }, [drawSolutionPaths, drawLetterCircles]);
 
-  if (!strandsData) {
-    return (
-      <div className="w-full min-h-screen bg-[#c0ddd9] flex flex-col items-center justify-center">
-        <Card className="w-full max-w-2xl text-center">
-          <CardHeader>
-            <CardTitle className="text-xl md:text-3xl lg:text-4xl xl:text-5xl font-extrabold">Strands</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-red-600">No data available.</p>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
   return (
     <div
-      className="w-full min-h-screen bg-[#c0ddd9] flex flex-col items-center justify-center relative cursor-pointer"
+      className="w-full min-h-[100dvh] bg-[#c0ddd9] flex flex-col items-center justify-center relative cursor-pointer"
       onClick={() => setRevealed(true)}
     >
       <div
@@ -212,7 +198,7 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
             </div>
           <CardContent className={`transition-all duration-300 ${revealed ? "blur-0" : "blur-lg"}`}>
             <div className="grid gap-0 relative">
-                {Array.isArray(strandsData.startingBoard) && strandsData.startingBoard.length > 0 ? (
+                {strandsData.startingBoard?.length > 0 ? (
                   strandsData.startingBoard.map((row, rowIndex) => (
                     <div key={rowIndex} className="flex">
                       {row.split('').map((char, colIndex) => (
@@ -236,7 +222,7 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
                   style={{ width: '100%', height: '100%' }}
                 />
                 <div className="absolute top-0 left-0 w-full h-full z-20">
-                  {Array.isArray(strandsData.startingBoard) && strandsData.startingBoard.length > 0 ? (
+                  {strandsData.startingBoard?.length > 0 ? (
                     strandsData.startingBoard.map((row, rowIndex) => (
                       <div key={rowIndex} className="flex">
                         {row.split('').map((char, colIndex) => (
