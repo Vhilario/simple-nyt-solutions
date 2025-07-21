@@ -9,6 +9,8 @@ import LetterBoxedSection from "@/components/sections/LetterBoxedSection";
 import SpellingBeeSection from "@/components/sections/SpellingBeeSection";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+import { useSwipeable } from "react-swipeable"
+
 type TabbedLayoutProps = {
   wordleData: any;
   connectionsData: any;
@@ -34,6 +36,11 @@ export default function TabbedLayout({
 }: TabbedLayoutProps) {
   const [activeTab, setActiveTab] = useState("about");
   const tabsContainerRef = useRef<HTMLDivElement>(null);
+
+  const handlers = useSwipeable({
+    onSwipedLeft: () => navigateTabs('next'),
+    onSwipedRight: () => navigateTabs('prev'),
+  })
 
   // Scroll to active tab when it changes
   useEffect(() => {
@@ -121,11 +128,11 @@ export default function TabbedLayout({
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50" {...handlers}>
       {/* Tab Navigation - Hidden on Mobile */}
       <div className={`sticky top-0 z-50 hidden md:block ${
         tabs.find(tab => tab.id === activeTab)?.bgColor || 'bg-gray-100'
-      }`}>
+      }`} {...handlers}>
         <div className="flex justify-center">
           <div ref={tabsContainerRef} className="flex overflow-x-auto scrollbar-hide">
             {tabs.map((tab) => (
