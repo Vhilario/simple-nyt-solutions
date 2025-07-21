@@ -172,74 +172,76 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
   }, [drawSolutionPaths, drawLetterCircles]);
 
   return (
-    <div
-      className="w-full min-h-[100dvh] bg-[#c0ddd9] flex flex-col items-center justify-center relative cursor-pointer"
-      onClick={() => setRevealed(true)}
-    >
-      <div
-        className={`absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-50 transition-opacity duration-300 ${
-          revealed ? "opacity-0 pointer-events-none" : "opacity-100"
-        }`}
-      >
-        <div className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg px-6 py-3 shadow-lg">
-          <p className="text-gray-700 font-medium text-lg">Click to reveal</p>
-        </div>
-      </div>
+    <div className="w-full min-h-[100dvh] bg-[#c0ddd9] flex flex-col items-center justify-center relative">
       <div className="py-4 sm:py-6 md:py-8">
         <Card className="w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto bg-white/80 border-2 border-black rounded-xl shadow-lg p-2 sm:p-4 md:p-6 lg:p-8">
           <CardHeader>
             <CardTitle className="text-lg sm:text-xl md:text-3xl lg:text-4xl font-extrabold">Strands</CardTitle>
             <CardDescription className="text-sm sm:text-base md:text-lg lg:text-xl">{strandsData.printDate}</CardDescription>
           </CardHeader>
-            <div className={`flex justify-center items-center font-bold text-base sm:text-lg md:text-2xl lg:text-3xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] ${revealed ? '' : 'hidden'}`}> 
-              <h1 className={currentWord === strandsData.spangram ? 'text-[#ffd700]' : 'text-[#aedfee]'}>
-                {currentWord}
-              </h1>
-            </div>
-          <CardContent className={`transition-all duration-300 ${revealed ? "blur-0" : "blur-lg"}`}>
-            <div className="grid gap-0 relative">
-                {strandsData.startingBoard?.length > 0 ? (
-                  strandsData.startingBoard.map((row, rowIndex) => (
-                    <div key={rowIndex} className="flex">
-                      {row.split('').map((char, colIndex) => (
-                        <div
-                          key={`${rowIndex}-${colIndex}`}
-                          className="w-10 h-10 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-12 lg:h-12 bg-white border flex items-center justify-center border-gray-300"
-                          data-coords={`(${colIndex},${rowIndex})`}
-                          ref={rowIndex === 0 && colIndex === 0 ? cellRef : undefined}
-                          onMouseEnter={() => handleCellInteraction(rowIndex, colIndex)}
-                          onClick={() => handleCellInteraction(rowIndex, colIndex)}
-                        />
-                      ))}
-                    </div>
-                  ))
-                ) : (
-                  <span className="text-red-600">No board data available.</span>
-                )}
-                <canvas
-                  ref={canvasRef}
-                  className="absolute top-0 left-0 pointer-events-none z-10"
-                  style={{ width: '100%', height: '100%' }}
-                />
-                <div className="absolute top-0 left-0 w-full h-full z-20">
+          <div className={`flex justify-center items-center font-bold text-2xl lg:text-3xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] ${revealed ? '' : 'hidden'}`}> 
+            <h1 className={currentWord === strandsData.spangram ? 'text-[#ffd700]' : 'text-[#aedfee]'}>
+              {currentWord}
+            </h1>
+          </div>
+          <CardContent className="relative">
+            <div className={`transition-all duration-300 ${revealed ? "blur-0" : "blur-lg"}`}>
+              <div className="grid gap-0 relative">
                   {strandsData.startingBoard?.length > 0 ? (
                     strandsData.startingBoard.map((row, rowIndex) => (
                       <div key={rowIndex} className="flex">
                         {row.split('').map((char, colIndex) => (
                           <div
                             key={`${rowIndex}-${colIndex}`}
-                            className="w-10 h-10 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-12 lg:h-12 flex items-center justify-center cursor-pointer"
+                            className="w-10 h-10 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-12 lg:h-12 bg-white border flex items-center justify-center border-gray-300"
+                            data-coords={`(${colIndex},${rowIndex})`}
+                            ref={rowIndex === 0 && colIndex === 0 ? cellRef : undefined}
                             onMouseEnter={() => handleCellInteraction(rowIndex, colIndex)}
                             onClick={() => handleCellInteraction(rowIndex, colIndex)}
-                          >
-                            <span className="text-base sm:text-lg md:text-2xl text-black font-bold">{char}</span>
-                          </div>
+                          />
                         ))}
                       </div>
                     ))
-                  ) : null}
-                </div>
+                  ) : (
+                    <span className="text-red-600">No board data available.</span>
+                  )}
+                  <canvas
+                    ref={canvasRef}
+                    className="absolute top-0 left-0 pointer-events-none z-10"
+                    style={{ width: '100%', height: '100%' }}
+                  />
+                  <div className="absolute top-0 left-0 w-full h-full z-20">
+                    {strandsData.startingBoard?.length > 0 ? (
+                      strandsData.startingBoard.map((row, rowIndex) => (
+                        <div key={rowIndex} className="flex">
+                          {row.split('').map((char, colIndex) => (
+                            <div
+                              key={`${rowIndex}-${colIndex}`}
+                              className="w-10 h-10 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-12 lg:h-12 flex items-center justify-center cursor-pointer"
+                              onMouseEnter={() => handleCellInteraction(rowIndex, colIndex)}
+                              onClick={() => handleCellInteraction(rowIndex, colIndex)}
+                            >
+                              <span className="text-base sm:text-lg md:text-2xl text-black font-bold">{char}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ))
+                    ) : null}
+                  </div>
+              </div>
             </div>
+            
+            {/* Click overlay - only appears when not revealed */}
+            {!revealed && (
+              <div
+                className="absolute inset-0 flex items-center justify-center cursor-pointer z-30"
+                onClick={() => setRevealed(true)}
+              >
+                <div className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-lg px-6 py-3 shadow-lg">
+                  <p className="text-gray-700 font-medium text-lg">Click to reveal</p>
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

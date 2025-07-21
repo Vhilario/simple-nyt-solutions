@@ -48,13 +48,6 @@ export const AboutSection = () => {
             </div>
           </CardFooter>
         </Card>
-        {/* Scroll indicator */}
-        <div className="absolute left-1/2 bottom-6 transform -translate-x-1/2 flex flex-col items-center">
-          <span className="text-gray-500 animate-bounce">
-            <ArrowDownFromLine className="w-8 h-8 lg:w-6 lg:h-6" />
-          </span>
-          <span className="text-xs text-gray-500 mt-1">Scroll down</span>
-        </div>
     </div>
   )
 }

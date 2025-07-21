@@ -1,9 +1,4 @@
-import { AboutSection } from "@/components/sections/AboutSection";
-import WordleSection from "@/components/sections/WordleSection";
-import ConnectionsSection from "@/components/sections/ConnectionsSection";
-import StrandsSection from "@/components/sections/StrandsSection";
-import LetterBoxedSection from "@/components/sections/LetterBoxedSection";
-import SpellingBeeSection from "@/components/sections/SpellingBeeSection";
+import TabbedLayout from "@/components/TabbedLayout";
 
 // Server-side data fetching with Next.js caching
 async function getData() {
@@ -61,26 +56,13 @@ export default async function Home() {
   const { wordleData, connectionsData, strandsData, spellingBeeData, letterBoxedData } = await getData();
 
   return (
-    <div className="h-screen overflow-y-auto snap-y snap-mandatory">
-      <div className="snap-start">
-        <AboutSection />
-      </div>
-      <div className="snap-start">
-        <WordleSection wordleData={wordleData} />
-      </div>
-      <div className="snap-start">
-        <ConnectionsSection connectionsData={connectionsData} />
-      </div>
-      <div className="snap-start">
-        <LetterBoxedSection letterBoxedData={letterBoxedData} />
-      </div>
-      <div className="snap-start">
-        <SpellingBeeSection spellingBeeData={spellingBeeData} />
-      </div>
-      <div className="snap-start">
-        <StrandsSection strandsData={strandsData} />
-      </div>
-    </div>
+    <TabbedLayout
+      wordleData={wordleData}
+      connectionsData={connectionsData}
+      strandsData={strandsData}
+      spellingBeeData={spellingBeeData}
+      letterBoxedData={letterBoxedData}
+    />
   );
 }
 
