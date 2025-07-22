@@ -7,6 +7,7 @@ import ConnectionsSection from "@/components/sections/ConnectionsSection";
 import StrandsSection from "@/components/sections/StrandsSection";
 import LetterBoxedSection from "@/components/sections/LetterBoxedSection";
 import SpellingBeeSection from "@/components/sections/SpellingBeeSection";
+import TheMiniSection from "@/components/sections/TheMiniSection";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { useSwipeable } from "react-swipeable"
@@ -17,6 +18,7 @@ type TabbedLayoutProps = {
   strandsData: any;
   spellingBeeData: any;
   letterBoxedData: any;
+  theMiniData: any;
 };
 
 type GameTab = {
@@ -33,6 +35,7 @@ export default function TabbedLayout({
   strandsData,
   spellingBeeData,
   letterBoxedData,
+  theMiniData,
 }: TabbedLayoutProps) {
   const [activeTab, setActiveTab] = useState("about");
   const tabsContainerRef = useRef<HTMLDivElement>(null);
@@ -125,12 +128,19 @@ export default function TabbedLayout({
       textColor: "text-gray-800",
       component: <StrandsSection strandsData={strandsData} />,
     },
+    {
+      id: "themini",
+      name: "The Mini",
+      bgColor: "bg-[#6592e6]",
+      textColor: "text-gray-800",
+      component: <TheMiniSection theMiniData={theMiniData} />,
+    },
   ];
 
   return (
     <div className="min-h-screen bg-gray-50" {...handlers}>
       {/* Tab Navigation - Hidden on Mobile */}
-      <div className={`sticky top-0 z-50 hidden md:block ${
+      <div className={`sticky top-0 z-50 hidden lg:block ${
         tabs.find(tab => tab.id === activeTab)?.bgColor || 'bg-gray-100'
       }`} {...handlers}>
         <div className="flex justify-center">
@@ -159,7 +169,7 @@ export default function TabbedLayout({
       </div>
 
       {/* Bottom Navigation Arrows - Mobile Only */}
-      <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-40 md:hidden">
+      <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-40 lg:hidden">
         <div className="flex items-center gap-4 bg-white/90 backdrop-blur-sm rounded-full shadow-lg border border-gray-200 px-4 py-2">
           <button
             onClick={() => navigateTabs('prev')}

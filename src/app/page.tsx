@@ -12,20 +12,22 @@ async function getData() {
   return unstable_cache(
     async () => {
       try {
-        const [wordleRes, connectionsRes, strandsRes, spellingBeeRes, letterBoxedRes] = await Promise.all([
+        const [wordleRes, connectionsRes, strandsRes, spellingBeeRes, letterBoxedRes, theMiniRes] = await Promise.all([
           fetch(`${API_URL}get_wordle_data`),
           fetch(`${API_URL}get_connections_data`),
           fetch(`${API_URL}get_strands_data`),
           fetch(`${API_URL}get_spelling_bee_data`),
-          fetch(`${API_URL}get_letter_boxed_data`)
+          fetch(`${API_URL}get_letter_boxed_data`),
+          fetch(`${API_URL}get_mini_data`)
         ]);
 
-        const [wordleData, connectionsData, strandsData, spellingBeeData, letterBoxedData] = await Promise.all([
+        const [wordleData, connectionsData, strandsData, spellingBeeData, letterBoxedData, theMiniData] = await Promise.all([
           wordleRes.json(),
           connectionsRes.json(),
           strandsRes.json(),
           spellingBeeRes.json(),
-          letterBoxedRes.json()
+          letterBoxedRes.json(),
+          theMiniRes.json()
         ]);
 
         return {
@@ -33,7 +35,8 @@ async function getData() {
           connectionsData,
           strandsData,
           spellingBeeData,
-          letterBoxedData
+          letterBoxedData,
+          theMiniData
         };
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -43,7 +46,8 @@ async function getData() {
           connectionsData: [],
           strandsData: [],
           spellingBeeData: [],
-          letterBoxedData: []
+          letterBoxedData: [],
+          theMiniData: []
         };
       }
     },
@@ -57,7 +61,7 @@ async function getData() {
 
 export default async function Home() {
   // This runs at build time and pre-populates the cache
-  const { wordleData, connectionsData, strandsData, spellingBeeData, letterBoxedData } = await getData();
+  const { wordleData, connectionsData, strandsData, spellingBeeData, letterBoxedData, theMiniData } = await getData();
 
   return (
     <TabbedLayout
@@ -66,6 +70,7 @@ export default async function Home() {
       strandsData={strandsData}
       spellingBeeData={spellingBeeData}
       letterBoxedData={letterBoxedData}
+      theMiniData={theMiniData}
     />
   );
 }
