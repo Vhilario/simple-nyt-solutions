@@ -49,7 +49,7 @@ export default function TheMiniSection({ theMiniData }: { theMiniData: TheMiniDa
   const [revealed, setRevealed] = useState(false);
 
   return (
-    <div className="w-full min-h-screen bg-[#6592e6] flex flex-col items-center justify-center relative pt-12 sm:pt-16 pb-20 lg:pb-0">
+    <div className="w-full min-h-[100svh] bg-[#6592e6] flex flex-col items-center justify-center relative pt-12 sm:pt-16 pb-20 lg:pb-0">
       <div className="w-full max-w-4xl mx-auto px-2 sm:px-4">
         <Card className="w-full bg-white/80 border-2 border-black rounded-xl shadow-lg p-2 sm:p-3 md:p-4 gap-2">
           <CardHeader className="pb-1 sm:pb-2 md:pb-3">

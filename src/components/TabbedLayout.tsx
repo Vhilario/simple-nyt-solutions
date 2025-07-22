@@ -138,7 +138,7 @@ export default function TabbedLayout({
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50" {...handlers}>
+    <div className="min-h-[100svh] bg-gray-50" {...handlers}>
       {/* Tab Navigation - Hidden on Mobile */}
       <div className={`sticky top-0 z-50 hidden lg:block ${
         tabs.find(tab => tab.id === activeTab)?.bgColor || 'bg-gray-100'
@@ -164,7 +164,7 @@ export default function TabbedLayout({
       </div>
 
       {/* Tab Content */}
-      <div className="min-h-[calc(100vh-80px)] absolute top-0 left-0 w-full">
+      <div className="min-h-[calc(100svh-80px)] absolute top-0 left-0 w-full">
         {tabs.find((tab) => tab.id === activeTab)?.component}
       </div>
 

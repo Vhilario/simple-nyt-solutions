@@ -119,6 +119,20 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* Prevent issues that could keep address bar visible */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: none;
+  }
+  
+  /* Mobile-specific viewport handling */
+  html {
+    height: 100%;
+    overflow-x: hidden;
+  }
+  
+  /* Ensure proper touch behavior */
+  * {
+    -webkit-tap-highlight-color: transparent;
   }
 }
 
