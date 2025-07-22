@@ -154,7 +154,7 @@ export default function TabbedLayout({
       </div>
 
       {/* Tab Content */}
-      <div className="min-h-[calc(100vh-80px)]">
+      <div className="min-h-[calc(100vh-80px)] absolute top-0 left-0 w-full">
         {tabs.find((tab) => tab.id === activeTab)?.component}
       </div>
 

@@ -172,7 +172,7 @@ export default function StrandsSection({ strandsData }: { strandsData: StrandsDa
   }, [drawSolutionPaths, drawLetterCircles]);
 
   return (
-    <div className="w-full min-h-[100dvh] bg-[#c0ddd9] flex flex-col items-center justify-center relative">
+    <div className="w-full min-h-screen bg-[#c0ddd9] flex flex-col items-center justify-center relative pt-12 sm:pt-16">
       <div className="py-4 sm:py-6 md:py-8">
         <Card className="w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto bg-white/80 border-2 border-black rounded-xl shadow-lg p-2 sm:p-4 md:p-6 lg:p-8">
           <CardHeader>
