@@ -26,7 +26,7 @@ export default function WordleSection({ wordleData }: { wordleData: WordleData }
   }, []);
 
   return (
-    <div className="w-full min-h-[100dvh] bg-[#e3e3e1] flex flex-col items-center justify-center relative">
+    <div className="w-full min-h-screen bg-[#e3e3e1] flex flex-col items-center justify-center relative">
       <div className="py-4 sm:py-8 md:py-10">
         <Card className="w-full max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-1 sm:mx-2 md:mx-4 lg:mx-auto bg-white/80 border-2 border-black rounded-xl shadow-lg p-2 sm:p-4 md:p-8">
           <CardHeader>
