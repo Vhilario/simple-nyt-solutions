@@ -5,14 +5,8 @@ export const runtime = 'edge'
 
 export async function POST(request: NextRequest) {
   try {
-    // Revalidate the main page and all game pages
+    // Revalidate the main page where all data is fetched and cached
     revalidatePath('/')
-    revalidatePath('/wordle')
-    revalidatePath('/connections')
-    revalidatePath('/spelling-bee')
-    revalidatePath('/strands')
-    revalidatePath('/letter-boxed')
-    revalidatePath('/mini')
     
     console.log('Cache revalidation completed at:', new Date().toISOString())
     
@@ -32,14 +26,8 @@ export async function POST(request: NextRequest) {
 // Also support GET requests for easier testing
 export async function GET() {
   try {
-    // Revalidate the main page and all game pages
+    // Revalidate the main page where all data is fetched and cached
     revalidatePath('/')
-    revalidatePath('/wordle')
-    revalidatePath('/connections')
-    revalidatePath('/spelling-bee')
-    revalidatePath('/strands')
-    revalidatePath('/letter-boxed')
-    revalidatePath('/mini')
     
     console.log('Cache revalidation completed at:', new Date().toISOString())
     
